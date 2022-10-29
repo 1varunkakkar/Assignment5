@@ -22,28 +22,23 @@ app.use(express.static('public'));
 app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, "/views/home.html"))
 });
-
-
+//-------------------------------------------------------------------------------------------------
+//Step 1: Adding multer
 const storage = multer.diskStorage({
     destination: "./public/images/uploaded",
     filename: function (req, file, cb) {
         cb(null, Date.now() + path.extname(file.originalname));
     }
 });
-
-
+//Define an "upload" variable as multer({ storage: storage });
 const upload = multer({ storage: storage });
+//-------------------------------------------------------------------------------------------------
 
-// app.use(express.static('./public/'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-
-
+//Step 2: Adding the "Post" route
 app.post('/images/add', upload.single("imageFile"), (req, res) => {
     res.redirect('/images');
 })
-
+//--------------------------------------------------------------------------------------------------
 app.post('/employees/add', (req, res) => {
     data.addEmployee(req.body).
         then(data => {
@@ -54,11 +49,10 @@ app.post('/employees/add', (req, res) => {
     res.redirect('/employees');
 })
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 
-// app.get('/', function (req, res) {
-//     res.sendFile(path.join(__dirname, "/views/home.html"))
-// });
 //-------------------------------------------------------------------
 app.get("/about", (req, res) => {
     res.sendFile(path.join(__dirname, "/views/about.html"))
