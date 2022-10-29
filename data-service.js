@@ -14,6 +14,9 @@ var fs = require('fs');
 var emp = [];
 var dpt = [];
 var mngrs = [];
+var empstatus = [];
+var empdepart = [];
+var empmanagenum = [];
 //---------------------------------------------------------------------------------------
 module.exports.initialize = function(){
     return new Promise(function(resolve, reject) {
@@ -65,3 +68,93 @@ module.exports.getDepartments = function(){
     )
 }
 //-------------------------------------------------------------------------------------------
+//Assignment 3 
+module.exports.addEmployee = function (employeeData) {
+    return new Promise(function (resolve, reject) {
+        if (typeof employeeData.isManager === "undefined") {
+            employeeData.isManager = false;
+        }
+        else {
+            employeeData.isManager = true;
+        }
+
+        employeeData.employeeNum = emp.length() + 1;
+        emp[emp.length()] = employeeData;
+
+        if (employeeData) resolve(emp);
+        else reject("error adding post");
+    })
+
+}
+//-------------------------------------------------------------------------------------------
+exports.getEmployeesByStatus = function (status) {
+    return new Promise(function (resolve, reject) {
+        if (emp.length > 0) {
+            var x = 0;
+            for (var i in emp) {
+                if (emp[i].status == status) {
+                    empstatus[x] = emp[i];
+                    x++;
+                }
+            }
+            resolve(empstatus);
+        }
+        else {
+            reject("no results returned");
+        };
+    })
+}
+
+exports.getEmployeesByDepartment = function (department) {
+    return new Promise((resolve, reject) => {
+        if (emp.length > 0) {
+            var x = 0;
+            for (var i in emp) {
+                if (emp[i].department == department) {
+                    empdepart[x] = emp[i];
+                    x++;
+                }
+            }
+            resolve(empdepart);
+        }
+        else {
+            reject("no results returned");
+        };
+    })
+}
+
+exports.getEmployeesByManager = function (manager) {
+    return new Promise((resolve, reject) => {
+        if (emp.length > 0) {
+            var x = 0;
+            for (var i in emp) {
+                if (emp[i].employeeManagerNum == manager) {
+                    empmanagenum[x] = emp[i];
+                    x++;
+                }
+            }
+            resolve(empmanagenum);
+        }
+        else {
+            reject("no results returned");
+        };
+    })
+}
+
+exports.getEmployeeByNum = function (num) {
+    return new Promise(function (resolve, reject) {
+        
+        if (emp.length > 0) {
+            for (var i in emp) {
+                if (emp[i].employeeNum == num) {
+                    index = i;
+                }
+            }
+
+            resolve(emp[index]);
+        }
+        else {
+            reject("no results returned");
+        };
+    })
+}
