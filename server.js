@@ -18,10 +18,10 @@ var data = require("./data-service.js")
 var path = require("path");
 var HTTP_PORT = process.env.PORT || 8080
 function onHttpStart() {console.log(`Express http server listening on ${HTTP_PORT}`);}
-// app.use(express.static('public'));
-// app.get('/', function (req, res) {
-//     res.sendFile(path.join(__dirname, "/views/home.html"))
-// });
+app.use(express.static('public'));
+app.get('/', function (req, res) {
+    res.sendFile(path.join(__dirname, "/views/home.html"))
+});
 
 
 const storage = multer.diskStorage({
@@ -34,7 +34,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-app.use(express.static('./public/'));
+// app.use(express.static('./public/'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -56,9 +56,9 @@ app.post('/employees/add', (req, res) => {
 
 
 
-app.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname, "/views/home.html"))
-});
+// app.get('/', function (req, res) {
+//     res.sendFile(path.join(__dirname, "/views/home.html"))
+// });
 //-------------------------------------------------------------------
 app.get("/about", (req, res) => {
     res.sendFile(path.join(__dirname, "/views/about.html"))
