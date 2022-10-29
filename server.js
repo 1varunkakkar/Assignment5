@@ -23,6 +23,7 @@ app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, "/views/home.html"))
 });
 //-------------------------------------------------------------------------------------------------
+//Part 2: Adding Routes / Middleware to Support Image Uploads
 //Step 1: Adding multer
 const storage = multer.diskStorage({
     destination: "./public/images/uploaded",
@@ -38,6 +39,13 @@ const upload = multer({ storage: storage });
 app.post('/images/add', upload.single("imageFile"), (req, res) => {
     res.redirect('/images');
 })
+// Step 3: Adding "Get" route /images using the "fs" module 
+app.get('/images', (req, res) => {
+    fs.readdir("./public/images/uploaded", (err, items) => {
+        var images = items;
+        res.json({ images });
+    })
+})
 //--------------------------------------------------------------------------------------------------
 app.post('/employees/add', (req, res) => {
     data.addEmployee(req.body).
@@ -48,6 +56,11 @@ app.post('/employees/add', (req, res) => {
         })
     res.redirect('/employees');
 })
+// Part 3: Adding Routes / Middleware to Support Adding Employees
+// Step 1: body-parser
+// • In express@4.16.0, the body-parser middleware is included in express, so we don't need to install
+// body-parser separately anymore.
+// • Inside your server.js file, add the following to handle form data without file upload.
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -115,20 +128,16 @@ app.get("/departments", function (req, res) {
     data.getDepartments().then((data) => { res.json(data); }).catch((ex) => {console.log(ex)})
 });
 //----------------------------------------------------------------------
+//GET /employees/add
 app.get("/employees/add", (req, res) => {
     res.sendFile(path.join(__dirname, "/views/addEmployee.html"));
 })
-
+//GET /images/add
 app.get("/images/add", (req, res) => {
     res.sendFile(path.join(__dirname, "/views/addImage.html"));
 })
 
-app.get('/images', (req, res) => {
-    fs.readdir("./public/images/uploaded", (err, items) => {
-        var images = items;
-        res.json({ images });
-    })
-})
+
 
 
 
