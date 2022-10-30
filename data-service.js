@@ -14,9 +14,9 @@ var fs = require('fs');
 var emp = [];
 var dpt = [];
 var mngrs = [];
-var empstatus = [];
-var empdepart = [];
-var empmanagenum = [];
+var employeestatus = [];
+var employeedepartment = [];
+var employeenum = [];
 //---------------------------------------------------------------------------------------
 module.exports.initialize = function(){
     return new Promise(function(resolve, reject) {
@@ -69,92 +69,73 @@ module.exports.getDepartments = function(){
 }
 //-------------------------------------------------------------------------------------------
 //Assignment 3 
+// Step 3: Adding "addEmployee" function within data-service.js
+// • Create the function "addEmployee(employeeData)" within data-service.js according to the following
+// specification: (HINT: do not forget to add it to exports)
+// o Like all functions within data-service.js, this function must return a Promise
+// o If employeeData.isManager is undefined, explicitly set it to false, otherwise set it to true
+// (this gets around the issue of the checkbox not sending "false" if it's unchecked)
+// o Explicitly set the employeeNum property of employeeData to be the length of the
+// "employees" array plus one (1). This will have the effect of setting the first new employee
+// number to 281, and so on.
+// o Push the updated employeeData object onto the "employees" array and resolve the
+// promise. (you don’t need to resolve any data here.) 
+
 module.exports.addEmployee = function (employeeData) {
     return new Promise(function (resolve, reject) {
-        if (typeof employeeData.isManager === "undefined") {
-            employeeData.isManager = false;
-        }
-        else {
-            employeeData.isManager = true;
-        }
-
+        if (typeof employeeData.isManager === "undefined") {employeeData.isManager = false;}
+        else {employeeData.isManager = true;}
         employeeData.employeeNum = emp.length() + 1;
         emp[emp.length()] = employeeData;
-
         if (employeeData) resolve(emp);
-        else reject("error adding post");
+        else reject("ERROR 404");
     })
-
 }
 //-------------------------------------------------------------------------------------------
-exports.getEmployeesByStatus = function (status) {
-    return new Promise(function (resolve, reject) {
-        if (emp.length > 0) {
-            var x = 0;
-            for (var i in emp) {
-                if (emp[i].status == status) {
-                    empstatus[x] = emp[i];
-                    x++;
+module.exports.getEmployeesByStatus = function (status) {return new Promise(function (resolve, reject) {
+        if (emp.length > 0) {var let = 0;
+            // The for in loop iterates over a object
+            // Each iteration returns a key (x)
+            // The key is used to access the value of the key
+            for (var i in emp) {if (emp[i].status == status) {employeestatus[let] = emp[i];
+                    let++;
                 }
-            }
-            resolve(empstatus);
-        }
-        else {
-            reject("no results returned");
-        };
+            }resolve(employeestatus);
+        }else {reject("no results returned");};
     })
 }
-
-exports.getEmployeesByDepartment = function (department) {
+//---------------------------------------------------------------------------------------------
+module.exports.getEmployeesByDepartment = function (department) {
     return new Promise((resolve, reject) => {
         if (emp.length > 0) {
-            var x = 0;
-            for (var i in emp) {
-                if (emp[i].department == department) {
-                    empdepart[x] = emp[i];
-                    x++;
+            var let = 0;
+            for (var i in emp) {if (emp[i].department == department) {employeedepartment[let] = emp[i];
+                    let++;
                 }
-            }
-            resolve(empdepart);
-        }
-        else {
-            reject("no results returned");
-        };
+            }resolve(employeedepartment);
+        }else {reject("no results returned");};
     })
 }
-
-exports.getEmployeesByManager = function (manager) {
+//-----------------------------------------------------------------------------------------------
+module.exports.getEmployeesByManager = function (manager) {
     return new Promise((resolve, reject) => {
         if (emp.length > 0) {
-            var x = 0;
+            var let = 0;
             for (var i in emp) {
-                if (emp[i].employeeManagerNum == manager) {
-                    empmanagenum[x] = emp[i];
-                    x++;
+                if (emp[i].employeeManagerNum == manager) {employeenum[let] = emp[i];
+                    let++;
                 }
-            }
-            resolve(empmanagenum);
-        }
-        else {
-            reject("no results returned");
-        };
+            }resolve(employeenum);
+        }else {reject("no results returned");};
     })
 }
-
-exports.getEmployeeByNum = function (num) {
+//------------------------------------------------------------------------------------------------
+module.exports.getEmployeeByNum = function (num) {
     return new Promise(function (resolve, reject) {
-        
         if (emp.length > 0) {
-            for (var i in emp) {
-                if (emp[i].employeeNum == num) {
-                    index = i;
-                }
-            }
-
+            for (var i in emp) {if (emp[i].employeeNum == num) {index = i;}}
             resolve(emp[index]);
-        }
-        else {
-            reject("no results returned");
-        };
+        }else {reject("no results returned");};
     })
 }
+//--------------------------------------------------------------------------------------------------
