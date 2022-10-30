@@ -92,6 +92,14 @@ module.exports.addEmployee = function (employeeData) {
     })
 }
 //-------------------------------------------------------------------------------------------
+
+//  getEmployeesByStatus(status)
+// • This function will provide an array of "employee" objects whose status property matches the status
+// parameter (ie: if status is "Full Time" then the array will consist of only "Full Time" employees) using
+// the resolve method of the returned promise (i.e., resolve the filtered array).
+// • If for some reason, the length of the array is 0 (no results returned), this function must invoke the
+// reject method and pass a meaningful message, ie: "no results returned".
+
 module.exports.getEmployeesByStatus = function (status) {return new Promise(function (resolve, reject) {
         if (emp.length > 0) {var let = 0;
             // The for in loop iterates over a object
@@ -105,10 +113,15 @@ module.exports.getEmployeesByStatus = function (status) {return new Promise(func
     })
 }
 //---------------------------------------------------------------------------------------------
+// getEmployeesByDepartment(department)
+// • This function will provide an array of "employee" objects whose department property matches the
+// department parameter (ie: if department is 5 then the array will consist of only employees who
+// belong to department 5 ) using the resolve method of the returned promise.
+// • If for some reason, the length of the array is 0 (no results returned), this function must invoke the
+// reject method and pass a meaningful message, ie: "no results returned".
 module.exports.getEmployeesByDepartment = function (department) {
     return new Promise((resolve, reject) => {
-        if (emp.length > 0) {
-            var let = 0;
+        if (emp.length > 0) {var let = 0;
             for (var i in emp) {if (emp[i].department == department) {employeedepartment[let] = emp[i];
                     let++;
                 }
@@ -117,10 +130,17 @@ module.exports.getEmployeesByDepartment = function (department) {
     })
 }
 //-----------------------------------------------------------------------------------------------
+// getEmployeesByManager(manager)
+// • This function will provide an array of "employee" objects whose employeeManagerNum property
+// matches the manager parameter (ie: if manager is 14 then the array will consist of only employees
+// who are managed by employee 14 ) using the resolve method of the returned promise (i.e., resolve
+// the filtered array).
+// 9
+// • If for some reason, the length of the array is 0 (no results returned), this function must invoke the
+// reject method and pass a meaningful message, ie: "no results returned"
 module.exports.getEmployeesByManager = function (manager) {
     return new Promise((resolve, reject) => {
-        if (emp.length > 0) {
-            var let = 0;
+        if (emp.length > 0) {var let = 0;
             for (var i in emp) {
                 if (emp[i].employeeManagerNum == manager) {employeenum[let] = emp[i];
                     let++;
@@ -130,10 +150,15 @@ module.exports.getEmployeesByManager = function (manager) {
     })
 }
 //------------------------------------------------------------------------------------------------
+// getEmployeeByNum(num)
+// • This function will provide a single "employee" object whose employeeNum property matches the
+// num parameter (ie: if num is 261 then the "employee" object returned will be "Glenine Focke" ) using
+// the resolve method of the returned promise (i.e., resolve the filtered ONE object).
+// • If for some reason, there is no result, this function must invoke the reject method and pass a
+// meaningful message, ie: "no results returned".
 module.exports.getEmployeeByNum = function (num) {
     return new Promise(function (resolve, reject) {
-        if (emp.length > 0) {
-            for (var i in emp) {if (emp[i].employeeNum == num) {index = i;}}
+        if (emp.length > 0) {for (var i in emp) {if (emp[i].employeeNum == num) {index = i;}}
             resolve(emp[index]);
         }else {reject("no results returned");};
     })
