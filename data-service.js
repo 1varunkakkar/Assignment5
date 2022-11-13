@@ -164,3 +164,56 @@ module.exports.getEmployeeByNum = function (num) {
     })
 }
 //--------------------------------------------------------------------------------------------------
+// employeeNum: type: "hidden", name: "employeeNum"
+// o Email: type: "email", name: "email"
+// o Social Security Number: type: "text", name: "SSN", readonly
+// o Address (Street): type: "text", name: "addressStreet"
+// o Address (City): type: "text", name: "addressCity"
+// o Address (State): type: "text", name: "addressState"
+// o Address (Zip Code): type: "text", name: "addressPostal"
+// o Manager: type: "checkbox", name: "isManager", (HINT: use the #if helper -
+// {{#if data.isManager}} … {{/if}} to see if the checkbox should be checked or not)
+// o Employee's Manager Number: type: "text", name: "employeeManagerNum"
+// o Status: type: "radio" name: "status", values: "Full Time" or "Part Time" (HINT, use the
+// #equals helper - {{#equal data.status "Full Time" }} checked {{/equal}} , to see if Full Time
+// or Part Time is checked)
+// 10
+// o Department type: "select", name: "department", values: 1 - 7 inclusive (HINT, use the
+// #equals helper - {{#equal data.department "1" }} selected {{/equal}} for each option to
+// determine which <option> should be selected)
+// o Hire Date type: "text", name: "hireDate", readonly
+module.exports.updateEmployee = function (employeeData) {
+    return new Promise(function (resolve, reject) {
+        if (employees.length > 0) {
+            for (var i in employees) {
+                if (employees[i].SSN == employeeData.SSN) {employees[i].firstName = employeeData.firstName;
+                    employees[i].lastName = employeeData.lastName;
+                    
+                    employees[i].email = employeeData.email
+                    
+                    employees[i].SSN = employeeData.SSN
+                    
+                    employees[i].addressStreet = employeeData.addressStreet
+                    
+                    employees[i].addressCity = employeeData.addressCity
+                    
+                    employees[i].addressState = employeeData.addressState
+                    
+                    employees[i].addressPostal = employeeData.addressPostal
+                    
+                    employees[i].Manager = employeeData.Manager
+                    
+                    employees[i].employeeManagerNum = employeeData.employeeManagerNum
+                    
+                    employees[i].status = employeeData.status
+                    
+                    employees[i].department = employeeData.department
+                    
+                    employees[i].hireDate = employeeData.hireDate                    
+                }
+            }
+            resolve();
+        }
+        else {reject("no results");}
+    })
+}
