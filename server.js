@@ -7,8 +7,7 @@ No part of this assignment has been copied manually or electronically from any o
 * Name: VARUN KAKKAR Student ID: 124524216 Date: 26-11-2022
 *
 * Your app’s URL (from Cyclic Heroku) that I can click to see your application:
-* https://serene-fortress-45199.herokuapp.com/
-https://mighty-sierra-40945.herokuapp.com/
+* 
 *
 *************************************************************************/
 var express = require("express");
@@ -104,18 +103,12 @@ app.get("/employee/:empNum", (req, res) => {
         .then((data) => {
             viewData.departments = data; 
             for (let i = 0; i < viewData.departments.length; i++) {
-                if (viewData.departments[i].departmentId == viewData.employee.department) {
-                    viewData.departments[i].selected = true;
-                }
+                if (viewData.departments[i].departmentId == viewData.employee.department) {viewData.departments[i].selected = true;}
             }
-        }).catch(() => {
-            viewData.departments = []; 
+        }).catch(() => {viewData.departments = []; 
         }).then(() => {
-            if (viewData.employee == null) { 
-                res.status(404).send("Employee Not Found");
-            } else {
-                res.render("employee", { viewData: viewData }); 
-            }
+            if (viewData.employee == null) { res.status(404).send("Employee Not Found");}
+            else {res.render("employee", { viewData: viewData });}
         });
 });
 //----------------------------------------------------------------------------------------------------------
@@ -156,7 +149,7 @@ app.get("/department/:departmentId", (req, res) => {data.getDepartmentById(req.p
 //----------------------------------------------------------------------------------------------------------
 app.get("/employees/delete/:empNum", (req, res) => {data.deleteEmployeeByNum(req.params.empNum).then(() => res.redirect("/employees")).catch(() => res.status(500).send("Unable to Remove Employee / Employee not found"))})
 //----------------------------------------------------------------------------------------------------------
-app.use(function (req, res) {res.status(404).send("Page not found");})
+app.use(function (req, res) {res.status(404).send("Request Failed");})
 //----------------------------------------------------------------------------------------------------------
-data.initialize().then(() => { app.listen(HTTP_PORT, onHttpStart()) }).catch(() => {console.log("unable to start server");})
+data.initialize().then(() => { app.listen(HTTP_PORT, onHttpStart()) }).catch(() => {console.log("Server not Responding");})
 //----------------------------------------------------------------------------------------------------------
